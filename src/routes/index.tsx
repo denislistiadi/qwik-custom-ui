@@ -6,7 +6,7 @@ import Button from "~/components/ui/button";
 
 export default component$(() => {
   return (
-    <main class="p-6">
+    <main class="p-10">
       <div class="flex w-full py-24 flex-col gap-5 items-center justify-center">
         <h2 class="text-2xl sm:text-6xl font-bold text-center ">
           Build your component library
