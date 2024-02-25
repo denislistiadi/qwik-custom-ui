@@ -1,5 +1,5 @@
-import { component$ } from "@builder.io/qwik"
-import { Form, routeAction$, routeLoader$ } from "@builder.io/qwik-city"
+import { $, component$, useSignal } from "@builder.io/qwik"
+import { routeAction$, routeLoader$ } from "@builder.io/qwik-city"
 
 interface ItemProps {
   id?: number
@@ -30,15 +30,38 @@ export const usePostData = routeAction$(async (data) => {
 
 export default component$(() => {
   const data = useGetData()
-  const action = usePostData()
+  // const action = usePostData()
+
+  const title = useSignal("")
+  const image = useSignal("")
+  const desc = useSignal("")
+
+  const onSubmit = $(async (e: any) => {
+    e.preventDefault()
+    const resp = await fetch(
+      "https://65be164adcfcce42a6f1d0f8.mockapi.io/posts",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        // Send your data in the request body as JSON
+        body: JSON.stringify({
+          title: title.value,
+          image: image.value,
+          desc: desc.value,
+        }),
+      }
+    )
+    const obj = await resp.json()
+    return obj
+  })
   return (
     <div>
-      <Form action={action}>
-        <input name="title" placeholder="title" />
-        <input name="image" placeholder="image" />
-        <input name="desc" placeholder="desc" />
-        <button type="submit">Add user</button>
-      </Form>
+      <form>
+        <input bind:value={title} placeholder="title" type="text" />
+        <input bind:value={image} placeholder="image" type="text" />
+        <input bind:value={desc} placeholder="desc" type="text" />
+        <button onClick$={onSubmit}>Add user</button>
+      </form>
       {data.value.map((item: ItemProps) => (
         <p key={item.id}>{item.title}</p>
       ))}
