@@ -55,6 +55,8 @@ export default component$(() => {
     
     return obj
   })
+
+  console.log(data)
   return (
     <div>
       <div>
