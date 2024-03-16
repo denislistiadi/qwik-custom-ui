@@ -52,16 +52,17 @@ export default component$(() => {
       }
     )
     const obj = await resp.json()
+    
     return obj
   })
   return (
     <div>
-      <form>
+      <div>
         <input bind:value={title} placeholder="title" type="text" />
         <input bind:value={image} placeholder="image" type="text" />
         <input bind:value={desc} placeholder="desc" type="text" />
         <button onClick$={onSubmit}>Add user</button>
-      </form>
+      </div>
       {data.value.map((item: ItemProps) => (
         <p key={item.id}>{item.title}</p>
       ))}
